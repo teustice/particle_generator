@@ -1,4 +1,8 @@
 let particles = [];
+let density = 1;
+let particleSize = 16;
+let particleDecay = 5;
+
 let fires = {
   green: false,
   red: false,
@@ -6,12 +10,14 @@ let fires = {
 };
 
 function setup() {
-  createCanvas(800, 800);
+  let canvas = createCanvas(800, 800);
+
+  canvas.parent('sketch-holder');
 }
 
 function draw() {
   background(0);
-  generateParticles(5);
+  generateParticles(density);
   for(let i=0; i < particles.length; i++){
     particles[i].purge();
     if(fires.green || fires.red || fires.blue && particles.length > 0){
@@ -61,7 +67,7 @@ class Particle {
   update(){
     this.x += this.vx;
     this.y += this.vy;
-    this.alpha -= 5;
+    this.alpha -= particleDecay;
   }
 
   purge(){
@@ -79,7 +85,7 @@ class Particle {
     } else if(this.color === 'blue'){
       fill(100, 120, 255, this.alpha);
     }
-    ellipse(this.x, this.y, 20);
+    ellipse(this.x, this.y, particleSize);
   }
 }
 
@@ -93,4 +99,44 @@ function makeRedFire(){
 
 function makeBlueFire(){
   fires['blue'] = !fires['blue'];
+}
+
+
+//fire density slider
+var fireDensitySlider = document.getElementById("fireDensity");
+var densityOutput = document.getElementById("densityNum");
+densityOutput.innerHTML = `Fire Density: ${fireDensitySlider.value}`;
+
+fireDensitySlider.oninput = function() {
+  density = this.value;
+  densityOutput.innerHTML = `Fire Density: ${this.value}`;
+}
+
+//particle size slider
+var particleSizeSlider = document.getElementById("particleSize");
+var particleOutput = document.getElementById("particleSizeNum");
+particleOutput.innerHTML = `Particle Size: ${particleSizeSlider.value}`;
+
+particleSizeSlider.oninput = function() {
+  particleSize = parseInt(this.value);
+  particleOutput.innerHTML = `Particle Size: ${this.value}`;
+}
+//particle size slider
+var particleSizeSlider = document.getElementById("particleSize");
+var particleOutput = document.getElementById("particleSizeNum");
+particleOutput.innerHTML = `Particle Size: ${particleSizeSlider.value}`;
+
+particleSizeSlider.oninput = function() {
+  particleSize = parseInt(this.value);
+  particleOutput.innerHTML = `Particle Size: ${this.value}`;
+}
+
+//particle decay slider
+var particleDecaySlider = document.getElementById("particleDecay");
+var particleDecayOutput = document.getElementById("particleDecayNum");
+particleDecayOutput.innerHTML = `Particle Decay: ${particleDecaySlider.value}`;
+
+particleDecaySlider.oninput = function() {
+  particleDecay = parseInt(this.value);
+  particleDecayOutput.innerHTML = `Particle Decay: ${this.value}`;
 }
