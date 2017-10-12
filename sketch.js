@@ -11,45 +11,7 @@ function setup() {
 
 function draw() {
   background(0);
-  if(fires.green){
-    particles.push(new Particle(100, 200, 'green'));
-    particles.push(new Particle(100, 200, 'green'));
-    particles.push(new Particle(100, 200, 'green'));
-  } else if(fires.green == false){
-    for(let i=0; i < particles.length; i++){
-      if(particles[i].color == 'green'){
-        console.log("removing green");
-        particles[i].alpha = 0;
-      }
-    }
-  }
-
-  if(fires.red){
-    particles.push(new Particle(350, 450, 'red'));
-    particles.push(new Particle(350, 450, 'red'));
-    particles.push(new Particle(350, 450, 'red'));
-  } else if(fires.red == false){
-    for(let i=0; i < particles.length; i++){
-      if(particles[i].color == 'red'){
-        console.log("removing red");
-        particles[i].alpha = 0;
-      }
-    }
-  }
-
-  if(fires.blue){
-    particles.push(new Particle(600, 700, 'blue'));
-    particles.push(new Particle(600, 700, 'blue'));
-    particles.push(new Particle(600, 700, 'blue'));
-  } else if(fires.blue == false){
-    for(let i=0; i < particles.length; i++){
-      if(particles[i].color == 'blue'){
-        console.log("removing blue");
-        particles[i].alpha = 0;
-      }
-    }
-  }
-
+  generateParticles(5);
   for(let i=0; i < particles.length; i++){
     particles[i].purge();
     if(fires.green || fires.red || fires.blue && particles.length > 0){
@@ -59,6 +21,32 @@ function draw() {
   }
 }
 
+function generateParticles(density){
+  for(let i=0; i<density; i++){
+    if(fires.green){
+      particles.push(new Particle(100, 200, 'green'));
+      removeParticles('green');
+    }
+    if(fires.red){
+      particles.push(new Particle(350, 450, 'red'));
+      removeParticles('red');
+    }
+    if(fires.blue){
+      particles.push(new Particle(600, 700, 'blue'));
+      removeParticles('blue');
+    }
+  }
+}
+
+function removeParticles(color){
+  if(fires[color] == false){
+    for(let i=0; i < particles.length; i++){
+      if(particles[i].color == color){
+        particles[i].alpha = 0;
+      }
+    }
+  }
+}
 
 class Particle {
   constructor(x, xy, color){
